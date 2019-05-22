@@ -1,145 +1,138 @@
-html, body {
-	max-width: 100%;
-	overflow-x: hidden;
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 .container {
-	width: 70%;
-	margin:auto;
+  width: 70%;
+  margin: auto;
 }
 
-.bgImage { 
-  background: url('./images/frame.jpg') no-repeat center center fixed; 
+.bgImage {
+  background: url("./images/frame.jpg") no-repeat center center fixed;
   position: fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	padding: 0;
-	margin: 0;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;		
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .LPImage {
-	background-image: url("./images/kids.jpg");
+  background-image: url("./images/kids.jpg");
   min-height: 500px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-	position: relative;
-	width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .LPcontainer {
   position: absolute;
   margin: 20px;
-	width: auto;
-	
+  width: auto;
 }
 
 .nav {
-	
-	background-color: none;
-	font-family: "Chewy"
+  background-color: none;
+  font-family: "Chewy";
+  z-index: 1;
 }
 
-
-.nav a {  
+.nav a {
   color: red;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-	font-size: 30px;
-	width: 25%; 
-	
+  font-size: 30px;
+  width: 33%;
 }
-
-.nav div {  
-  color: red;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-	font-size: 30px;
-	width: 25%; 
-	
-}
-
 
 .nav a:hover {
   background-color: none;
   color: rgb(127, 245, 127);
+  transition: transform .2s;
+  transform: scale(1.2); 
 }
 
 .dropbtn {
-  background-color: red;
-  color: white;  
+  background-color: transparent;
+  cursor: pointer;
+  color: red;
   font-size: 30px;
-	border: none;
-	padding: 14px 16px;
-	
+  border: none;
+  padding: 14px 16px;
+  
 }
 
-/* The container <div> - needed to position the dropdown content */
 .dropdown {
   position: relative;
   display: inline-block;
+  width:33%;
+  text-align: center;
+  
 }
 
-/* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: none; 
-	z-index: 1;
-	width:25%
+  background: rgba(237, 241, 238, 0.8);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;  
+  right: 0;
+  text-align: left; 
 }
 
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;  
-  text-decoration: none;
+.dropdown:hover .dropdown-content {
   display: block;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: none;}
+.dropdown:hover .dropbtn {
+  background-color: transparent; 
+}
 
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
+.dropbtn:hover {
+color: rgb(127, 245, 127);
+transition: transform .2s;
+  transform: scale(1.2); 
 
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: none;}
-
-
+}
 
 
 .welcome {
-	font-family: "mistervampireregular";
-	width: 100%;
-	font-size: 5em;
-	text-align: center;
-	margin-top: 30px;
-	margin-bottom: 50px;
-	color:red;
-	font-weight: 900
+  font-family: "mistervampireregular";
+  width: 100%;
+  font-size: 5em;
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  color: red;
+  font-weight: 900;
+  transition: transform .2s;
+}
 
-
+.welcome:hover {
+  transform: scale(1.05); 
 }
 
 .row {
   display: flex;
 }
 
-
 .column {
-	flex: 50%;  	
-	height: 500px;
+  flex: 50%;
+  height: relative;
 }
 
 .middle {
-  transition: .5s ease;
+  transition: 0.5s ease;
   opacity: 0;
   position: absolute;
   top: 50%;
@@ -150,7 +143,45 @@ html, body {
 }
 
 .column:hover img {
-  opacity: 0.1;
+  opacity: 0.3;
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
 }
 
 .column:hover .middle {
@@ -158,146 +189,140 @@ html, body {
 }
 
 .text {
-  background-color:none;
-	color: red;
-	font-family: "chewy";
-	font-weight: 900;
+  background-color: none;
+  color: red;
+  font-family: "chewy";
+  font-weight: 900;
   font-size: 80px;
   padding: 12px 24px;
 }
 
-.rc  {
+.rc {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-	position: relative;
-
-	}
- .rc img{
-	 width: 100%;
-	 height: 400px;
-	 }
-
+  position: relative;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline;
+}
+.rc img {
+  width: 100%;
+  height: 400px;
+}
 
 h1 {
-	margin-top: 0px;
-	text-align: center;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-top: 0px;
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
 #img {
-	width: 100%;
-	height: 300px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	border: 1px solid #ddd;
-  	border-radius: 25px;
-  	padding: 5px;
+  display: flex;
+  margin: auto;
+  width: 80%;
+  height: 400px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  padding: 5px;
 }
 
-
-
-
 .options {
-	display: flex;
-	margin: 30px auto;
-	width: 90%;
-	justify-content: space-between;
-	list-style: none;
-	flex-wrap: wrap;
-	font-size: 20px;
-	text-align: center;
-	font-family: 'Chewy';
+  display: flex;
+  margin: 10px auto;
+  width: 80%;
+  justify-content: space-between;
+  list-style: none;
+  flex-wrap: wrap;
+  font-size: 20px;
+  text-align: center;
+  font-family: "Chewy";
 }
 
 .options-li {
-	flex: 40%;
-	padding: 5px;
-	margin: 10px 50px 10px 20px;
-	background: gray;
-	cursor: pointer;
-	background-color: white; 
-  	color: black; 
-	border: 2px solid deepskyblue;
-	border-radius: 15px;
-	
-	  
+  flex: 30%;
+  padding: 5px;
+  margin: 10px 50px 10px 20px;
+  background: gray;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  border: 2px solid deepskyblue;
+  border-radius: 15px;
 }
 
 .options-li:hover {
-	background-color: deepskyblue;
-	  color: white;
+  background-color: deepskyblue;
+  color: white;
 }
-
 
 .resultImage {
-	background: url('./images/hobqjg.jpg');    
-	position: fixed;
-	-webkit-background-size: cover;
-  	-moz-background-size: cover;
-  	-o-background-size: cover;
-  	background-size: cover;
-    padding: 0;
-    margin: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;	
+  background: url("./images/hobqjg.jpg");
+  position: absolute;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding: 0;
+  margin: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.resultImage div{
-	margin:auto;
-	animation: createBox .50s;
-	width: 60%;
-	height: 200px;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	border: 1px solid #ddd;
-  	border-radius: 25px;
-	padding: 5px;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-	font-size: 3rem;
-	text-align: center;
+.resultImage div {
+  margin: 150px auto;
+  animation: createBox 0.5s;
+  width: 60%;
+  height: 200px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  padding: 5px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-size: 3rem;
+  text-align: center;
+}
 
-	
-	
-	
+
+@keyframes createBox {
+  from {
+    transform: scale(0, 5);
   }
-  @keyframes createBox {
-	from {
-	  transform: scale(0,5);
-	}
-	to {
-	  transform: scale(1);
-	}
-  } 
-
+  to {
+    transform: scale(1);
+  }
+}
 
 /* CORRECT ANSWER */
 .correct-answer {
-	background: green;
-	border-color: green;
+  background: green;
+  border-color: green;
 }
 
 .correct-answer:hover {
-	background: green;
-	border-color: green;
+  background: green;
+  border-color: green;
 }
 
 /* WRONG ANSWER */
 .wrong-answer {
-	background: red;
-	border-color: red;
+  background: red;
+  border-color: red;
 }
 
 .wrong-answer:hover {
-	background: red;
-	border-color: red;
+  background: red;
+  border-color: red;
 }
 
 @font-face {
-	font-family: 'mistervampireregular';
-	src: url('./fonts/mistv___-webfont.woff2') format('woff2'),
-			 url('./fonts/mistv___-webfont.woff') format('woff');
-	font-weight: normal;
-	font-style: normal;
-
+  font-family: "mistervampireregular";
+  src: url("./fonts/mistv___-webfont.woff2") format("woff2"),
+    url("./fonts/mistv___-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }

@@ -1,123 +1,180 @@
 import React from "react";
-
-import { colors } from "../data/data";
+import { connect } from "react-redux";
 import Question from "./Question";
+import store from "../state/store";
+import * as setQuizPageAction from "../state/actions/setQuizPage";
 
-class Quiz extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			nr: 0,
-			total: colors.length,
-			score: 0,
-			completed: false
-		};
-		this.checkAnswer = this.checkAnswer.bind(this);
-		this.nextQuestion = this.nextQuestion.bind(this);
-	}
+import {
+  colors,
+  fruits,
+  clothes,
+  drinks,
+  animals,
+  partsOfBody
+} from "../data/data";
 
-	componentWillMount() {
-		let { nr } = this.state;
-		this.createNewQuestion(nr);
-	}
+export class Quiz extends React.Component {
+  constructor(props) {
+    super(props);
 
-	createNewQuestion(nr) {
-		this.setState({
-			currentWord: colors[nr].word,
-			img: colors[nr].img,
-			correctAnswer: false,
-			wrongAnswer: false,
-			disableButton: false,
-			options: this.shuffle(colors[nr].options),
-			nr: this.state.nr + 1
-		});
-	}
+    console.log(this.props.newQuiz);
+    this.checkAnswer = this.checkAnswer.bind(this);
+    this.nextQuestion = this.nextQuestion.bind(this);
 
-	// Shuffle the array of options:
-	shuffle(arr) {
-		let j, x, i;
-		for (i = arr.length - 1; i > 0; i--) {
-			j = Math.floor(Math.random() * (i + 1));
-			x = arr[i];
-			arr[i] = arr[j];
-			arr[j] = x;
-		}
-		return arr;
-	}
+    console.log(store.getState().landingPage.section);
+  }
 
-	checkAnswer(e) {
-		let answer = e.currentTarget.innerText,
-			element = document.getElementById(answer),
-			{ currentWord } = this.state;
+  componentWillReceiveProps() {
+    if (this.props.newQuiz !== store.getState().landingPage.section) {
+      this.componentWillMount();
+    }
+  }
 
-		if (answer === currentWord) {
-			this.setState({ score: this.state.score + 1, correctAnswer: true, disableButton: true });
-			setTimeout(() => {
-				element.classList.toggle("correct-answer");
-				this.nextQuestion();
-			}, 1000);
-			element.classList.toggle("correct-answer");
-		} else {
-			this.setState({ wrongAnswer: true, disableButton: true });
-			setTimeout(() => {
-				element.classList.toggle("wrong-answer");
-				this.setState({ wrongAnswer: false });
-				this.nextQuestion();
-			}, 1000);
-			element.classList.toggle("wrong-answer");
-		}
-	}
+  componentWillMount() {
+    let nr = store.getState().quizPage.nr;
+    this.createNewQuestion(nr);
+  }
 
-	nextQuestion() {
-		let { nr, total } = this.state;
+  createNewQuestion = nr => {
+    const newQuiz = store.getState().landingPage.section;
 
-		// Check if quiz is completed:
-		if (nr === total) {
-			this.setState({
-				completed: true
-			});
-		} else {
-			// Assign values to state for the next word:
-			this.createNewQuestion(nr);
-		}
-	}
+    const section = newQuiz => {
+      if (newQuiz === "colors") {
+        return colors;
+      } else if (newQuiz === "fruits") {
+        return fruits;
+      } else if (newQuiz === "clothes") {
+        return clothes;
+      } else if (newQuiz === "drinks") {
+        return drinks;
+      } else if (newQuiz === "animals") {
+        return animals;
+      } else if (newQuiz === "partsOfBody") {
+        return partsOfBody;
+      }
+    };
 
-	render() {
-		const {
-			currentWord,
-			img,
-			correctAnswer,
-			wrongAnswer,
-			completed,
-			options,
-			score,
-			total,
-			disableButton
-		} = this.state;
+    let quiz = section(newQuiz);
 
-		if (completed)
-			return (
-				<div className="resultImage">
-					<br style={{ marginBottom: "10em" }} />
-					<div>
-						<br />
-						Quiz completed! You got {score} out of {total} right!
-					</div>
-				</div>
-			);
+    setQuizPageAction.setTotal(quiz.length);
+    setQuizPageAction.setCurrentWord(quiz[nr].word);
+    setQuizPageAction.setImg(quiz[nr].img);
+    setQuizPageAction.setCorrectAnswer(false);
+    setQuizPageAction.setWrongAnswer(false);
+    setQuizPageAction.setDisableButton(false);
+    setQuizPageAction.setOptions(this.shuffle(quiz[nr].options));
+    setQuizPageAction.setNr(nr + 1);
+  };
 
-		return (
-			<Question
-				word={currentWord}
-				imgUrl={img}
-				options={options}
-				correctAnswer={correctAnswer}
-				wrongAnswer={wrongAnswer}
-				disableButton={disableButton}
-				checkAnswer={this.checkAnswer}
-			/>
-		);
-	}
+  // Shuffle the array of options:
+  shuffle(arr) {
+    let j, x, i;
+    for (i = arr.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = arr[i];
+      arr[i] = arr[j];
+      arr[j] = x;
+    }
+    return arr;
+  }
+
+  checkAnswer(e) {
+    let currentWord = store.getState().quizPage.currentWord;
+    let score = store.getState().quizPage.score;
+    console.log(score);
+
+    let answer = e.currentTarget.innerText;
+    let element = document.getElementById(answer);
+
+    if (answer === currentWord) {
+      setQuizPageAction.setScore(score + 1);
+      setQuizPageAction.setCorrectAnswer(true);
+      setQuizPageAction.setDisableButton(true);
+
+      setTimeout(() => {
+        element.classList.toggle("correct-answer");
+        this.nextQuestion();
+      }, 1000);
+      element.classList.toggle("correct-answer");
+    } else {
+      setQuizPageAction.setWrongAnswer(false);
+      setQuizPageAction.setDisableButton(false);
+
+      setTimeout(() => {
+        element.classList.toggle("wrong-answer");
+        setQuizPageAction.setWrongAnswer(false);
+        this.nextQuestion();
+      }, 1000);
+      element.classList.toggle("wrong-answer");
+    }
+  }
+
+  nextQuestion() {
+    let nr = store.getState().quizPage.nr;
+    let total = store.getState().quizPage.total;
+
+    // Check if quiz is completed:
+    if (nr === total) {
+      setQuizPageAction.setCompleted(true);
+    } else {
+      // Assign values to state for the next word:
+      this.createNewQuestion(nr);
+    }
+  }
+
+  render() {
+    let disableButton = store.getState().quizPage.getStatedisableButton;
+    let correctAnswer = store.getState().quizPage.correctAnswer;
+    let wrongAnswer = store.getState().quizPage.wrongAnswer;
+    let currentWord = store.getState().quizPage.currentWord;
+    let completed = store.getState().quizPage.completed;
+    let options = store.getState().quizPage.options;
+    let score = store.getState().quizPage.score;
+    let total = store.getState().quizPage.total;
+    let img = store.getState().quizPage.img;
+
+    if (completed === true)
+      return (
+        <div className="resultImage">
+          <a href="/" style={{fontFamily:"Chewy", fontSize:"30px", color:"red", margin:"20px 0px 0px 50px"}}>Home</a>
+          <br style={{ marginBottom: "5em" }} />
+          <div style={{ fontFamily: "Chewy", color: "red" }}>
+            <br />
+            Quiz completed! You got {score} out of {total} right!
+          </div>
+        </div>
+      );
+
+    return (
+      <Question
+        word={currentWord}
+        imgUrl={img}
+        options={options}
+        correctAnswer={correctAnswer}
+        wrongAnswer={wrongAnswer}
+        disableButton={disableButton}
+        checkAnswer={this.checkAnswer}
+      />
+    );
+  }
 }
 
-export default Quiz;
+const mapStateToProps = state => {
+  const { quizPage, landingPage } = state;
+  return {
+    currentWord: quizPage.currentWord,
+    img: quizPage.img,
+    correctAnswer: quizPage.correctAnswer,
+    wrongAnswer: quizPage.wrongAnswer,
+    completed: quizPage.completed,
+    options: quizPage.options,
+    score: quizPage.score,
+    total: quizPage.total,
+    disableButton: quizPage.disableButton,
+    quiz: quizPage.quiz,
+    nr: quizPage.nr,
+    newQuiz: landingPage.section
+  };
+};
+
+export default connect(mapStateToProps)(Quiz);
